@@ -8,10 +8,10 @@ const User = new mongoose.model('user',
             required: true,
             validate(value){
                 if(value.length > 20){
-                    throw new Error('El nombre es muy largo');
+                    throw new Error('Name must be shorter than 20 letters');
                 }
                 if(value.length < 4){
-                    throw new Error('El nombre es muy corto');
+                    throw new Error('Name must be at least 4 letters');
                 }
             }
         },
@@ -20,7 +20,7 @@ const User = new mongoose.model('user',
             required: true,
             validate(value){
                 if(!validator.isEmail(value)){
-                    throw new Error('El email es invalido');
+                    throw new Error('Email is invalid');
                 }
             }
         },
@@ -29,13 +29,13 @@ const User = new mongoose.model('user',
             required: true,
             validate(value){
                 if(value.toLowerCase().match(/password/)){
-                    throw new Error('La clave no puede ser password');
+                    throw new Error('Password cannot be password');
                 }
                 if(value.length < 5){
-                    throw new Error('La clave no puede ser menor a 5 letras');
+                    throw new Error('Password cannot be shorter than 5 letters');
                 }
                 if(value.length > 20){
-                    throw new Error('La clave no puede ser mayor a 20');
+                    throw new Error('Password cannot be longer than 20 letters');
                 }
             }
         }

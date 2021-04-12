@@ -7,10 +7,10 @@ const Idea = new mongoose.model('idea',
             required: true,
             validate(value){
                 if(value.length > 30){
-                    throw new Error('Descripcion muy larga');
+                    throw new Error('Description too long');
                 }
                 if(value.length < 5){
-                    throw new Error('Descripcion muy corta');
+                    throw new Error('Description too short');
                 }
             }
         },
@@ -21,7 +21,7 @@ const Idea = new mongoose.model('idea',
                 const allowedTypes = ['Almuerzo', 'Cena'];
                 const isValid = allowedTypes.includes(value);
                 if(!isValid){
-                    throw new Error('Categoria invalida');
+                    throw new Error('Invalid type');
                 }
             }
         }
