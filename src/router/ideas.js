@@ -45,6 +45,47 @@ router.get('/ideas/type/:type', async (req, res)=>{
     }
 })
 
+// update
+router.patch('/ideas/update/:id', async (req, res)=>{
+
+    const allowUpdate = ['description', 'type'];
+    const update = Object.keys(req.body);
+    const isValid = update.every((item)=>{return allowUpdate.includes(item)});
+
+    if(!isValid){
+        return res.status(400).send({msg:'Invalid updates'});
+    }
+
+    try{
+        const data = await Idea.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true
+        })
+        if(data === null){
+            return res.status(404).send({msg:'Not found'});
+        }
+        return res.send({msg:'Idea updated', data});
+    }
+    catch(e){
+        return res.status(500).send({msg:'Error', e});
+    }
+})
+
+// delete
+router.delete('/ideas/delete/:id', async (req, res)=>{
+
+    try{
+        const data = await Idea.findByIdAndDelete(req.params.id);
+        if(data === null){
+            return res.status(404).send({msg:'Not found'});
+        }
+        return res.send({msg:'Idea deleted', data})
+    }
+    catch(e){
+        return res.status(500).send({msg:'Error', e});
+    }
+})
+
 
 
 module.exports = router;

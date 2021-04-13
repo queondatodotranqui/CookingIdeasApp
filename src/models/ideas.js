@@ -23,6 +23,9 @@ const Idea = new mongoose.model('idea',
                 if(!isValid){
                     throw new Error('Invalid type');
                 }
+                if(value.length === 0){
+                    throw new Error('Type cannot be empty');
+                }
             }
         }
     }
