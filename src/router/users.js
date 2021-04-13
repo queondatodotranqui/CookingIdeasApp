@@ -2,6 +2,7 @@ const express = require('express');
 const router = new express.Router();
 const User = require('../models/user');
 
+// create
 router.post('/users', async (req, res)=>{
     const data = new User(req.body);
 
@@ -14,6 +15,7 @@ router.post('/users', async (req, res)=>{
     }
 })
 
+// read
 router.get('/users', async (req, res)=>{
     try{
         const data = await User.find({});
@@ -56,6 +58,7 @@ router.get('/users/name/:name', async (req, res)=>{
     }
 })
 
+// update
 router.patch('/users/update/:id', async (req, res)=>{
     const allowed = ['name', 'password', 'email'];
     const update = Object.keys(req.body);
@@ -77,6 +80,7 @@ router.patch('/users/update/:id', async (req, res)=>{
     }
 })
 
+// delete
 router.delete('/users/delete/:id', async (req, res)=>{
 
     try{

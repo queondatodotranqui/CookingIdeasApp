@@ -15,11 +15,11 @@ const Idea = new mongoose.model('idea',
             }
         },
         type:{
-            type:String,
+            type:Array,
             required: true,
             validate(value){
                 const allowedTypes = ['Almuerzo', 'Cena'];
-                const isValid = allowedTypes.includes(value);
+                const isValid = value.every((item)=>{return allowedTypes.includes(item)})
                 if(!isValid){
                     throw new Error('Invalid type');
                 }
