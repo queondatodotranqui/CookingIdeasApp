@@ -2,13 +2,29 @@ const express = require('express');
 const router = new express.Router();
 const User = require('../models/user');
 
+
+router.post('/users/login', async (req, res)=>{
+    
+    try{
+        const user = await User.validateLogin(req.body.email, req.body.password);
+        if(!user){
+            return res.status(400).send({msg:'Unable to login'});
+        }
+        return res.send({msg:'Logged in!', user});
+    }
+    catch(e){
+        return res.status(500).send({msg:'Error', e});
+    }
+})
+
 // create
+
 router.post('/users', async (req, res)=>{
     const data = new User(req.body);
 
     try{
-        const user = await data.save()
-        return res.status(201).send({msg:'User created', user})
+        await data.save()
+        return res.status(201).send({msg:'User created', data})
     }
     catch(e){
         return res.status(400).send({msg:'Error', e})
@@ -69,11 +85,16 @@ router.patch('/users/update/:id', async (req, res)=>{
     }
 
     try{
-        const data = await User.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true})
-        if(data === null){
+        const user = await User.findById(req.params.id);
+
+        update.forEach((item)=> user[item] = req.body[item]);
+
+        await user.save();
+
+        if(!user){
             return res.status(404).send({msg:'Not found'});
         }
-        return res.send({msg:'Success', data});
+        return res.send({msg:'User update', user});
     }
     catch(e){
         return res.status(500).send({msg:'Error', e});
