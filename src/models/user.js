@@ -75,6 +75,11 @@ userSchema.pre('save', async function(next){
     next();
 })
 
+userSchema.post('save', async function(){
+
+    console.log('User saved');
+})
+
 const User = new mongoose.model('user', userSchema);
 
 module.exports = User;
